@@ -1,0 +1,19 @@
+.escondido{
+  display: none;
+}
+
+input[type='file'] {
+  display: none
+}
+
+#teste {
+  background-color: #f56a6a;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  margin: 1px;
+  padding: 6px 10px;
+  height: 32px;
+  width: 165px;
+  margin-left:-5px;
+}
