@@ -93,7 +93,7 @@ WHERE FUN.CPF ='{$CPF}'";
 							<div class="col-6 col-12-xsmall">
 								<h5>Nacionalidade</h5>
 								<select name="nacionalidade" id="nacionalidade" style="text-transform:uppercase";>
-								<option value="<?php echo $row_usuario['NACIONALIDADE'];?>"><?php echo $row_usuario['nacao'];?></option>
+								<option value="<?php echo $row_usuario['NACIONALIDADE'];?>"><?php echo utf8_encode($row_usuario['nacao']);?></option>
 									<?php while($dadosnacao = mysqli_fetch_array($resultadonacao)):?> 
 										<option value="<?php echo $dadosnacao['codigo'];?>"><?php echo utf8_encode($dadosnacao['nacao']);?></option>
 									<?php endwhile; ?>
@@ -102,7 +102,7 @@ WHERE FUN.CPF ='{$CPF}'";
 							<div class="col-6 col-12-xsmall">
 								<h5>Estado civil</h5>
 								<select name="estadocivil" id="estadocivil" style="text-transform:uppercase;">
-									<option value="<?php echo $row_usuario['ESTADOCIVIL'];?>"><?php echo $row_usuario['descricao'];?></option>
+									<option value="<?php echo $row_usuario['ESTADOCIVIL'];?>"><?php echo utf8_encode($row_usuario['descricao']);?></option>
 
 									<?php while($dadoscivil = mysqli_fetch_array($resultadocivil)):?> 
 										<option value="<?php echo $dadoscivil['id'];?>"><?php echo utf8_encode($dadoscivil['descricao']);?></option>

@@ -11,6 +11,7 @@ include_once 'mensagem.php';
 <head>
 	<title>Quality - RH</title>
 	<meta charset="utf-8" />
+	<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<link rel="stylesheet" href="assets/css/main.css" />
 	<link rel="stylesheet" href="assets/css/stylesheet.css"/>
@@ -81,8 +82,8 @@ include_once 'mensagem.php';
 											?>
 											<td><?php echo $dataParaExibir ;?></td>
 											<td><?php echo $dados['NATURALIDADE'];?></td>
-											<td><?php echo $dados['descricao'];?></td>
-											<td><?php echo $dados['nacao'];?></td>
+											<td><?php echo utf8_encode($dados['descricao'])?></td>
+											<td><?php echo utf8_encode($dados['nacao']);?></td>
 											<td><?php echo $dados['CPF'];?></td>
 											<td> <a href = "editar.php?id=<?php echo $dados['id'];?>" class = "btn-floating orange"><i class ="material-icons">edit</i></a></td>
 											
@@ -201,7 +202,7 @@ include_once 'mensagem.php';
 			if(imagem){
 				reader.readAsDataURL(imagem);
 			} else{
-				previwq.src = "";
+				preview.src = "";
 			}
 
 		}

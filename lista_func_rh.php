@@ -59,7 +59,11 @@ include_once 'mensagem.php';
 																	</thead>
 																	<tbody>
 																			<?php 
-																			$sql = "SELECT * FROM PFUNC";
+																			$sql = "SELECT * FROM 
+																						PFUNC FUN 
+																						INNER JOIN PCODNACAO NACAO ON FUN.NACIONALIDADE = NACAO.CODIGO 
+																						INNER JOIN ESTADOCIVIL CIVIL ON FUN.ESTADOCIVIL = CIVIL.ID
+																						inner join ppessoa pes on pes.cpf = fun.cpf";
 																			$resultado = mysqli_query($conexao, $sql);
 																			while($dados = mysqli_fetch_array($resultado)):
 																			?>
@@ -72,8 +76,8 @@ include_once 'mensagem.php';
 																					?>
 																					<td><?php echo $dataParaExibir;?></td>
 																					<td><?php echo $dados['NATURALIDADE'];?></td>
-																					<td><?php echo $dados['ESTADOCIVIL'];?></td>
-																					<td><?php echo $dados['NACIONALIDADE'];?></td>
+																					<td><?php echo utf8_encode($dados['descricao']);?></td>
+																					<td><?php echo utf8_encode($dados['nacao']);?></td>
 																					<td><?php echo $dados['CPF'];?></td>
 																					
 																					<td><a href = ""><i class ="material-icons">edit</i></a></td>
