@@ -9,23 +9,27 @@ if( empty($_POST['usuario']) || empty($_POST['senha']) ){
 $usuario = mysqli_real_escape_string($conexao, $_POST['usuario']);
 $senha = mysqli_real_escape_string($conexao, $_POST['senha']);
 
-$query = "SELECT * FROM USUARIOS WHERE NOME = '{$usuario}' AND SENHA = '{$senha}'";
+$query = "SELECT * FROM PPESSOA WHERE USUARIO = '{$usuario}' AND SENHA = '{$senha}'";
 $result = mysqli_query($conexao, $query);
 $row = mysqli_num_rows($result);
 
 
 if($row == 1){
     $dadosusuario = mysqli_fetch_assoc($result);
-    if($dadosusuario['nivelacesso'] == 1 ){
-        $_SESSION['cpf'] = $dadosusuario['cpf'];
-        $_SESSION['id_user'] = $dadosusuario['id'];
+    if($dadosusuario['NIVELACESSO'] == 1 ){
+        $_SESSION['cpf'] = $dadosusuario['CPF'];
+        $_SESSION['id_user'] = $dadosusuario['ID'];
         $_SESSION['usuario'] = $usuario;
+        $_SESSION['nivelacesso'] = $dadosusuario['NIVELACESSO'];
+        $_SESSION['coligada'] = $dadosusuario['CODCOLIGADA'];
         header('Location: painelrh.php');
         exit();
     }else{
-        $_SESSION['cpf'] = $dadosusuario['cpf'];
-        $_SESSION['id_user'] = $dadosusuario['id'];
+        $_SESSION['cpf'] = $dadosusuario['CPF'];
+        $_SESSION['id_user'] = $dadosusuario['ID'];
         $_SESSION['usuario'] = $usuario;
+        $_SESSION['nivelacesso'] = $dadosusuario['NIVELACESSO'];
+        $_SESSION['coligada'] = $dadosusuario['CODCOLIGADA'];
         header('Location: painel.php');
         exit();
     }

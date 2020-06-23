@@ -2,28 +2,13 @@
 session_start();
 include('verifica_login.php');
 include_once 'conexao.php';
-?>
-<?php 
-	$CPF = $_SESSION['cpf'];
-	$sql = "SELECT 
-	*
-FROM 
-	PFUNC FUN 
-	INNER JOIN PCODNACAO NACAO ON FUN.NACIONALIDADE = NACAO.CODIGO 
-    INNER JOIN ESTADOCIVIL CIVIL ON FUN.ESTADOCIVIL = CIVIL.ID
-WHERE FUN.CPF ='{$CPF}'";
-	$resultado_usuario = mysqli_query($conexao,$sql);
-	$row_usuario = mysqli_fetch_assoc($resultado_usuario);
-
-	$sqlnacao = "SELECT codigo,nacao FROM pcodnacao order by nacao";
-	$resultadonacao = mysqli_query($conexao, $sqlnacao);
 
 	$sqlcivil = "SELECT id,descricao FROM estadocivil";
 	$resultadocivil = mysqli_query($conexao, $sqlcivil);
-
-
+	
+	$sqlnacao = "SELECT codigo,nacao FROM pcodnacao order by nacao";
+    $resultadonacao = mysqli_query($conexao, $sqlnacao);
 ?>
-
 <!DOCTYPE HTML>
 
 <html>
@@ -63,7 +48,7 @@ WHERE FUN.CPF ='{$CPF}'";
 
 				<section>
 
-					<form method="post" action="update.php" enctype="multipart/form-data">
+					<form method="post" action="cadfunc.php" enctype="multipart/form-data">
 						<div class="logo">
 							<h3>Identificação</h3>
 							<img style="height: 150px; width: 150px;"><br>
@@ -75,25 +60,20 @@ WHERE FUN.CPF ='{$CPF}'";
 							
 							<div class="col-6 col-12-xsmall">
 								<h5>Nome</h5>
-								<input type="text" name="nome" id="nome" value="<?php echo $row_usuario['NOME'];?>"/>
+								<input type="text" name="nome" id="nome" value="" placeholder="Nome" style="text-transform:uppercase;" />
 							</div>
 							<div class="col-6 col-12-xsmall">
 								<h5>Data nascimento</h5>
-								<?php  
-									$data = $row_usuario['DTNASC'];
-									$dataP = explode('-', $data);
-									$dataParaExibir = $dataP[2].'/'.$dataP[1].'/'.$dataP[0];
-								?>
-								<input type="text" name="dtnasc" id="dtnasc" value="<?php echo $dataParaExibir;?>" placeholder="Data nascimento" maxlength="10" onkeyup="formatar(this,'##/##/####',event)" style="text-transform:uppercase;"/>
+								<input type="text" name="dtnasc" id="dtnasc" value="" placeholder="Data nascimento" maxlength="10" onkeyup="formatar(this,'##/##/####',event)" style="text-transform:uppercase;"/>
 							</div>
 							<div class="col-6 col-12-xsmall">
 								<h5>Naturalidade</h5>	
-								<input type="text" name="naturalidade" id="naturalidade" value="<?php echo $row_usuario['NATURALIDADE'];?>" placeholder="naturalidade" style="text-transform:uppercase;" />
+								<input type="text" name="naturalidade" id="naturalidade" value="" placeholder="naturalidade" style="text-transform:uppercase;" />
 							</div>
 							<div class="col-6 col-12-xsmall">
 								<h5>Nacionalidade</h5>
 								<select name="nacionalidade" id="nacionalidade" style="text-transform:uppercase";>
-								<option value="<?php echo $row_usuario['NACIONALIDADE'];?>"><?php echo $row_usuario['nacao'];?></option>
+								<option value="">Nacionalidade</option>
 									<?php while($dadosnacao = mysqli_fetch_array($resultadonacao)):?> 
 										<option value="<?php echo $dadosnacao['codigo'];?>"><?php echo utf8_encode($dadosnacao['nacao']);?></option>
 									<?php endwhile; ?>
@@ -102,8 +82,7 @@ WHERE FUN.CPF ='{$CPF}'";
 							<div class="col-6 col-12-xsmall">
 								<h5>Estado civil</h5>
 								<select name="estadocivil" id="estadocivil" style="text-transform:uppercase;">
-									<option value="<?php echo $row_usuario['ESTADOCIVIL'];?>"><?php echo $row_usuario['descricao'];?></option>
-
+									<option value="">Estado civil</option>
 									<?php while($dadoscivil = mysqli_fetch_array($resultadocivil)):?> 
 										<option value="<?php echo $dadoscivil['id'];?>"><?php echo utf8_encode($dadoscivil['descricao']);?></option>
 									<?php endwhile; ?>
@@ -112,7 +91,7 @@ WHERE FUN.CPF ='{$CPF}'";
 							<div class="col-6 col-12-xsmall">
 								<h5>Sexo</h5>
 									<select name="sexo" id="sexo" style="text-transform:uppercase;">	
-									<option value="<?php echo $row_usuario['SEXO'];?>"><?php echo $row_usuario['GRAUINSTRUCAO'];?></option>
+									<option value="">Sexo</option>
 									<option value="1">Masculino</option>
 									<option value="2">Feminino</option>
 									<option value="3">Personalizado</option>
@@ -121,7 +100,7 @@ WHERE FUN.CPF ='{$CPF}'";
 							<div class="col-6 col-12-xsmall">
 								<h5>Grau de Instrução</h5>
 								<select name="grauinstrucao" id="grauinstrucao" style="text-transform:uppercase;">
-									<option value="<?php echo $row_usuario['GRAUINSTRUCAO'];?>"><?php echo $row_usuario['GRAUINSTRUCAO'];?></option>
+									<option value="">Grau de Instrução</option>
 									<option value="1">Ensino médio completo</option>
 									<option value="2">Ensino superior completo</option>
 									<option value="3">Pós-graduação completo</option>
@@ -133,7 +112,7 @@ WHERE FUN.CPF ='{$CPF}'";
 							<div class="col-6 col-12-xsmall">
 								<h5>Raça</h5>
 								<select name="raca" id="raca" style="text-transform:uppercase;">
-									<option value="<?php echo $row_usuario['RACA'];?>"><?php echo $row_usuario['RACA'];?></option>
+									<option value="">Raça</option>
 									<option value="1">Negro</option>
 									<option value="2">Branco</option>
 									<option value="3">Amarela</option>
@@ -143,23 +122,23 @@ WHERE FUN.CPF ='{$CPF}'";
 							</div>
 							<div class="col-6 col-12-xsmall">
 								<h5>Nome Pai</h5>
-								<input type="text" name="nomepai" id="nomepai" value="<?php echo $row_usuario['NOMEPAI'];?>" placeholder="Nome Pai" style ="text-transform:uppercase" />
+								<input type="text" name="nomepai" id="nomepai" value="" placeholder="Nome Pai" style ="text-transform:uppercase" />
 							</div>
 							<div class="col-6 col-12-xsmall">
 								<h5>Nome Mãe</h5>
-								<input type="text" name="nomemae" id="nomemae" value="<?php echo $row_usuario['NOMEMAE'];?>" placeholder="Nome Mãe" style="text-transform:uppercase"/>
+								<input type="text" name="nomemae" id="nomemae" value="" placeholder="Nome Mãe" style="text-transform:uppercase"/>
 							</div>
 							<div class="col-6 col-12-xsmall">
 								<h5>Email</h5>
-								<input type="text" name="email" id="email" value="<?php echo $row_usuario['EMAIL'];?>" placeholder="Email" style = "text-transform:uppercase" />
+								<input type="text" name="email" id="email" value="" placeholder="Email" style = "text-transform:uppercase" />
 							</div>
 							<div class="col-3 col-12-xsmall">
 								<h5>Telefone</h5>
-								<input type="text" name="telefone" id="telefone" value="<?php echo $row_usuario['TELEFONE'];?>" placeholder="DD 0000-0000" maxlength="12" onkeyup="formatar(this,'## ####-####',event)" />
+								<input type="text" name="telefone" id="telefone" value="" placeholder="DD 0000-0000" maxlength="12" onkeyup="formatar(this,'## ####-####',event)" />
 							</div>
 							<div class="col-3 col-12-xsmall">
 								<h5>Celular</h5>
-								<input type="text" name="celular" id="celular" value="<?php echo $row_usuario['CELULAR'];?>" placeholder="DD 00000-0000" maxlength="13" onkeyup="formatar(this,'## #####-####',event)" />
+								<input type="text" name="celular" id="celular" value="" placeholder="DD 00000-0000" maxlength="13" onkeyup="formatar(this,'## #####-####',event)" />
 							</div>
 
 
@@ -170,7 +149,7 @@ WHERE FUN.CPF ='{$CPF}'";
 							</div>
 							<div class="col-6 col-12-xsmall">
 								<h5>CPF</h5>
-								<input type="text" name="cpf" id="cpf" value="<?php echo $row_usuario['CPF'];?>" placeholder="CPF" maxlength="11"  style="text-transform:uppercase"/>
+								<input type="text" name="cpf" id="cpf" value="" placeholder="CPF" maxlength="11"  style="text-transform:uppercase"/>
 							</div>
 							<!--
 							<div class="col-6 col-12-xsmall">
@@ -656,7 +635,7 @@ WHERE FUN.CPF ='{$CPF}'";
 							
 							<div class="col-12">
 								<ul class="actions">
-									<li><input type="submit" value="Atualizar Dados" class="primary" /></li>
+									<li><input type="submit" value="Cadastrar" class="primary" /></li>
 								</ul>
 							</div>
 						</div>
@@ -681,8 +660,12 @@ WHERE FUN.CPF ='{$CPF}'";
 						<h2>Menu</h2>
 					</header>
 					<ul>
-						<li><a href="painel.php">Inicio</a></li>
-						<li><a href="elements.php">Alterar senha</a></li>
+						<li><a href="painelrh.php">Inicio</a></li>
+						<li><a href="lista_func_rh.php">Funcionarios</a></li>
+						<li><a href="coligadarh.php">Alterar Empresa</a></li>
+						<li><a href="cadfuncrh.php">Cadastrar Usuarios</a></li>
+						<li><a href="cadastrorh.php">Cadastrar Funcionarios</a></li>
+						<li><a href="alterarsenharh.php">Alterar senha</a></li>
 						<li>
 							<span class="opener">Sair</span>
 							<ul>

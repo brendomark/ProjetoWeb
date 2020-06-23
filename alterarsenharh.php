@@ -71,10 +71,11 @@ include_once 'conexao.php';
 									</header>
 									<ul>
 										<li><a href="painelrh.php">Inicio</a></li>
-										<li><a href="coligadarh.php">Alterar Empresa</a></li>
-										<li><a href="alterarsenharh.php">Alterar senha</a></li>
-										<li><a href="cadfuncrh.php">Cadastrar Usuarios</a></li>
 										<li><a href="lista_func_rh.php">Funcionarios</a></li>
+										<li><a href="coligadarh.php">Alterar Empresa</a></li>
+										<li><a href="cadfuncrh.php">Cadastrar Usuarios</a></li>
+										<li><a href="cadastrorh.php">Cadastrar Funcionarios</a></li>
+										<li><a href="alterarsenharh.php">Alterar senha</a></li>
 										<li>
 											<span class="opener">Sair</span>
 											<ul>

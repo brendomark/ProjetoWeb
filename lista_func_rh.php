@@ -65,7 +65,12 @@ include_once 'mensagem.php';
 																			?>
 																				<tr>
 																					<td><?php echo $dados['NOME'];?></td>
-																					<td><?php echo $dados['DTNASC'];?></td>
+																					<?php 
+																						$data = $dados['DTNASC'];
+																						$dataP = explode('-', $data);
+																						$dataParaExibir = $dataP[2].'/'.$dataP[1].'/'.$dataP[0];
+																					?>
+																					<td><?php echo $dataParaExibir;?></td>
 																					<td><?php echo $dados['NATURALIDADE'];?></td>
 																					<td><?php echo $dados['ESTADOCIVIL'];?></td>
 																					<td><?php echo $dados['NACIONALIDADE'];?></td>
@@ -106,11 +111,12 @@ include_once 'mensagem.php';
 										<h2>Menu</h2>
 									</header>
 									<ul>
-                                        <li><a href="painelrh.php">Inicio</a></li>
-										<li><a href="coligadarh.php">Alterar Empresa</a></li>
-										<li><a href="alterarsenharh.php">Alterar senha</a></li>
-										<li><a href="cadfuncrh.php">Cadastrar Usuarios</a></li>
+										<li><a href="painelrh.php">Inicio</a></li>
 										<li><a href="lista_func_rh.php">Funcionarios</a></li>
+										<li><a href="coligadarh.php">Alterar Empresa</a></li>
+										<li><a href="cadfuncrh.php">Cadastrar Usuarios</a></li>
+										<li><a href="cadastrorh.php">Cadastrar Funcionarios</a></li>
+										<li><a href="alterarsenharh.php">Alterar senha</a></li>
 										<li>
 											<span class="opener">Sair</span>
 											<ul>

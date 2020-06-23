@@ -2,6 +2,7 @@
 session_start();
 include('verifica_login.php');
 include_once 'conexao.php';
+include_once 'mensagem.php';
 ?>
 <!DOCTYPE HTML>
 
@@ -66,7 +67,7 @@ include_once 'conexao.php';
 												PFUNC FUN 
 												INNER JOIN PCODNACAO NACAO ON FUN.NACIONALIDADE = NACAO.CODIGO 
 												INNER JOIN ESTADOCIVIL CIVIL ON FUN.ESTADOCIVIL = CIVIL.ID
-												inner join usuarios user on user.cpf = fun.cpf
+												inner join ppessoa pes on pes.cpf = fun.cpf
 											where fun.cpf = '{$cpf}'";
 									$resultado = mysqli_query($conexao, $sql);
 									while($dados = mysqli_fetch_array($resultado)):
@@ -89,7 +90,7 @@ include_once 'conexao.php';
 									<?php endwhile; ?>
 								</tbody>
 							</table>
-							
+							 
 						</div>
 
 					</div>

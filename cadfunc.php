@@ -6,7 +6,6 @@ include('verifica_login.php');
 require_once 'conexao.php';
 
 if(isset($_POST['btn-cadastrar']));
-$ID = $_SESSION['id_user'];
 $NOME = mysqli_escape_String($conexao, $_POST['nome']);
 $DATANASC = mysqli_escape_String($conexao, $_POST['dtnasc']);
 $NATURALIDADE = mysqli_escape_String($conexao, $_POST['naturalidade']);
@@ -21,17 +20,38 @@ $EMAIL = mysqli_escape_String($conexao, $_POST['email']);
 $TELEFONE = mysqli_escape_String($conexao, $_POST['telefone']);
 $CELULAR = mysqli_escape_String($conexao, $_POST['celular']);
 $CPF = mysqli_escape_String($conexao, $_POST['cpf']);
+    
+$sql = "SELECT * FROM pessoa WHERE cpf = '{$CPF}'";
+$resultado = mysqli_query($conexao, $sql);
+$dados = mysqli_fetch_array($resultado);
+$ID = $dados["ID"];
+$COLIGADA = $dados["CODCOLIGADA"];
 
-
-$sql = "INSERT INTO pfunc(id,nome,dtnasc,naturalidade,nacionalidade,estadocivil,sexo,grauinstrucao,raca,nomepai,nomemae,email,telefone,celular,cpf)
- VALUES('$ID',UPPER('$NOME'),STR_TO_DATE('$DATANASC', '%d/%m/%Y'),UPPER('$NATURALIDADE'),UPPER('$NACIONALIDADE'),UPPER('$ESTADOCIVIL'),'$SEXO','$GRAUINSTRUCAO','$RACA',UPPER('$NOMEPAI'),UPPER('$NOMEMAE'),'$EMAIL','$TELEFONE','$CELULAR','$CPF')";
+$sql = "INSERT INTO pfunc(codcoligada,id,nome,dtnasc,naturalidade,nacionalidade,estadocivil,sexo,grauinstrucao,raca,nomepai,nomemae,email,telefone,celular,cpf)
+ VALUES('$COLIGADA','$ID',UPPER('$NOME'),STR_TO_DATE('$DATANASC', '%d/%m/%Y'),UPPER('$NATURALIDADE'),UPPER('$NACIONALIDADE'),UPPER('$ESTADOCIVIL'),'$SEXO','$GRAUINSTRUCAO','$RACA',UPPER('$NOMEPAI'),UPPER('$NOMEMAE'),'$EMAIL','$TELEFONE','$CELULAR','$CPF')";
 
     
-    if(mysqli_query($conexao,$sql)):
-        $_SESSION['mensagem'] = "Cadastrado com sucesso!";
-        header('location: lista_func.php');
-    else:
-        $_SESSION['mensagem'] = "Erro ao cadastrar, favor entrar em contato com RH";
-        header('location: lista_func.php');
-    endif;
+    if(mysqli_query($conexao,$sql)){
+        $ACESSO=$_SESSION['nivelacesso'];
+        if($ACESSO==1){
+            $_SESSION['mensagem'] = "Cadastrado com sucesso!";
+            header('location: lista_func_rh.php');
+            exit();
+        }else{
+            $_SESSION['mensagem'] = "Cadastrado com sucesso!";
+            header('location: lista_func.php');
+            exit();
+        }
+        
+    }else{
+        if($ACESSO==0){
+            $_SESSION['mensagem'] = "Erro ao cadastrar!";
+            header('location: lista_func_rh.php');
+            exit();
+        }else{
+            $_SESSION['mensagem'] = "Erro ao cadastrar!";
+            header('location: lista_func.php');
+            exit();
+        }
+    }
 ?>
