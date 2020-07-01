@@ -7,6 +7,10 @@ include_once 'conexao.php';
 
 <html>
 
+
+
+
+
 <head>
 	<title>Quality - RH</title>
 	<meta charset="utf-8" />
